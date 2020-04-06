@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-3.4.1.min.js"></script>
+
+</head>
+<body>
+    <!-- 第一种 -->
+    <!--使用form表单进行上传文件-->
+    <!--<form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="上传">
+    </form>-->
+
+    <!-- 第二种 -->
+    <!--使用ajax上传文件-->
+    <div id="result"></div>
+    <input type="file" name="file" id="file">
+    <input type="button" value="ajax上传" onclick="uploadFile()">
+    <script>
+        function uploadFile(){
+            // 获取file.files得到file数组取第1个
+            var file = $("#file")[0].files[0];
+            // 创建formdata对象
+            var formData = new FormData();
+            // 将file装入到formdata中
+            formData.append("file",file);
+
+            $.ajax({
+                url:'/upload',
+                type:'post',
+                // 设置两个属性
+                processData:false, // 1.是否将数据处理成对象
+                contentType:false, // 2.设置请求头为false
+                data:formData,
+                success:function(result){
+                    $("#result").html(result)
+                }
+            })
+        }
+    </script>
+</body>
+</html>
